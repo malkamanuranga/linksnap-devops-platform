@@ -47,4 +47,12 @@ app.post("/shorten", (req, res) => {
   res.status(201).json({ code, url: parsed.href });
 });
 
+app.get("/stats/:code", (req, res) => {
+  const link = links.get(req.params.code);
+  if (!link) {
+    return res.status(404).json({ error: "not found" });
+  }
+  res.json({ code: req.params.code, url: link.url, clicks: link.clicks });
+});
+
 module.exports = app;
