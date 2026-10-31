@@ -70,6 +70,7 @@ app.post("/shorten", (req, res) => {
   }
   const code = newCode();
   links.set(code, { url: parsed.href, clicks: 0 });
+  linksCreated.inc();
   res.status(201).json({ code, url: parsed.href });
 });
 
@@ -92,6 +93,7 @@ app.get("/:code", (req, res) => {
     return res.status(404).json({ error: "not found" });
   }
   link.clicks += 1;
+  redirectsTotal.inc();
   res.redirect(302, link.url);
 });
 
