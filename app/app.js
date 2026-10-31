@@ -76,4 +76,13 @@ app.get("/metrics", async (req, res) => {
   res.end(await client.register.metrics());
 });
 
+app.get("/:code", (req, res) => {
+  const link = links.get(req.params.code);
+  if (!link) {
+    return res.status(404).json({ error: "not found" });
+  }
+  link.clicks += 1;
+  res.redirect(302, link.url);
+});
+
 module.exports = app;
