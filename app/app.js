@@ -1,5 +1,6 @@
 const crypto = require("crypto");
 const express = require("express");
+const client = require("prom-client");
 
 app.use(express.json());
 
@@ -12,6 +13,21 @@ function newCode() {
   } while (links.has(code));
   return code;
 }
+
+client.collectDefaultMetrics();
+
+const requests = new client.Counter({
+  name: "http_requests_total",
+  help: "HTTP requests",
+  labelNames: ["method", "status"],
+});
+
+app.use((req, res, next) => {
+  res.on("finish", () => {
+    requests.inc({ method: req.method, status: res.statusCode });
+  });
+  next();
+});
 
 const app = express();
 
