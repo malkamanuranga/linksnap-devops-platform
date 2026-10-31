@@ -22,6 +22,16 @@ const requests = new client.Counter({
   labelNames: ["method", "status"],
 });
 
+const linksCreated = new client.Counter({
+  name: "links_created_total",
+  help: "Short links created",
+});
+
+const redirectsTotal = new client.Counter({
+  name: "redirects_total",
+  help: "Redirects served",
+});
+
 app.use((req, res, next) => {
   res.on("finish", () => {
     requests.inc({ method: req.method, status: res.statusCode });
