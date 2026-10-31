@@ -71,4 +71,9 @@ app.get("/stats/:code", (req, res) => {
   res.json({ code: req.params.code, url: link.url, clicks: link.clicks });
 });
 
+app.get("/metrics", async (req, res) => {
+  res.set("Content-Type", client.register.contentType);
+  res.end(await client.register.metrics());
+});
+
 module.exports = app;
