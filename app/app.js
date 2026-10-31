@@ -15,6 +15,18 @@ function newCode() {
 
 const app = express();
 
+app.use(express.json());
+
+const links = new Map();
+
+function newCode() {
+  let code;
+  do {
+    code = crypto.randomBytes(3).toString("hex");
+  } while (links.has(code));
+  return code;
+}
+
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
