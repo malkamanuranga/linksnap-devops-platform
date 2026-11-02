@@ -7,3 +7,9 @@ FROM base AS test
 RUN npm install
 COPY . .
 RUN npm test
+
+FROM base AS runtime
+COPY app.js server.js ./
+EXPOSE 3000
+USER node
+CMD ["node", "server.js"]
