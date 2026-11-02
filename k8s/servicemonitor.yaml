@@ -1,0 +1,8 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata: { name: linksnap, namespace: linksnap }
+spec:
+  selector:
+    matchLabels: { app: linksnap }
+  endpoints:
+    - { port: http, path: /metrics, interval: 15s }
