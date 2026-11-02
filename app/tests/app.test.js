@@ -18,7 +18,6 @@ test("shorten rejects invalid url", async () => {
   expect(res.status).toBe(400);
 });
 
-
 test("redirect sends user to original url and counts click", async () => {
   const created = await request(app).post("/shorten").send({ url: "https://example.com/docs" });
   const code = created.body.code;
