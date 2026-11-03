@@ -2,6 +2,7 @@ const crypto = require("crypto");
 const express = require("express");
 const client = require("prom-client");
 
+const app = express();
 app.use(express.json());
 
 const links = new Map();
@@ -38,20 +39,6 @@ app.use((req, res, next) => {
   });
   next();
 });
-
-const app = express();
-
-app.use(express.json());
-
-const links = new Map();
-
-function newCode() {
-  let code;
-  do {
-    code = crypto.randomBytes(3).toString("hex");
-  } while (links.has(code));
-  return code;
-}
 
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
